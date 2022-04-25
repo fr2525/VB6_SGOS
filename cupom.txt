@@ -1,0 +1,181 @@
+	   SET PRINTER TO (pporta)
+*		set printer to CUPOM.TXT
+	   Do While !PRINTSTATUS()   && Impressora fora de linha
+	      Set Console On
+	      Set Device to Screen
+	      =ALERT("Aten‡Æo...A Impressora esta desligada")
+	      WAIT ""
+	      IF LASTKEY() = 27
+			DEACTIVATE WINDOW wfecha
+	         Exit
+	      Endif
+	      Set Console Off
+	      Set Device to Print
+	   EndDo
+
+       Set Console On
+       Set Device to Screen
+       WAIT WINDOW "Cupom No. "+m.sequencia + "Est  sendo Impresso" NOWAIT
+	
+	   Set Console Off
+	   Set Device to Print
+	   Set Printer On
+	   mPag = 0
+	
+	   IF m.totorca > 0
+	   	   =f_cabe()
+	   	ENDIF
+	   SELE itens
+	   GO TOP
+	   SCAN
+	  		IF EMPT(itens.codprod)
+	 			LOOP
+	 		Endif
+
+			IF itens.qtde = 0
+				LOOP
+			ENDIF	
+	 		SELE produtos
+			IF LEN(ALLTRIM(itens.codprod)) = 13
+				SET ORDER TO TAG codbar
+				SEEK itens.codprod
+				REPLACE itens.codprod WITH produtos.codprod
+			ELSE	
+				SET ORDER TO TAG codprod
+		 		SEEK itens.codprod
+		 	ENDIF	
+	 		m.descricao = itens.descricao
+	      SELE itens
+	      ? Substr(m.descricao,1,20) + " "          && Imprime o proprio
+	
+	      ?? Transform(itens.qtde,"999") + " "  && Qtde
+	      ?? Transform(itens.precounit,"9999.99")+ " "  &&   Preco Unitario
+	      ?? Transform(itens.precotot,"9999.99") && Total
+	
+	   ENDSCAN
+		IF m.totorca > 0	
+		   ? " "
+		   ? "      Total da Compra.........."
+		   ?? Transform( m.totorca,"999999.99")
+			IF mDesc > 0
+			    ? "      Desconto "
+				?? Transform(pDesc,"99.99")
+			    ?? "%.........."
+			    ?? Transform(mDesc,"999999.99")
+			    ? "      Total Geral (R$)........."
+			    ?? Transform(m.totorca - mDesc,"999999.99")
+		   ENDIF
+			?
+		   IF m.tipovenda == 2
+				?
+				?
+				?
+		        ? "----------------------------"
+		   	    ? "        ASSINATURA  "
+				IF pDivcupom = 'S'
+ 					SELE movcli
+					SUM movcli.qtde * movcli.precouni TO totdivida FOR movcli.codcli = m.codcli
+					IF TotDIVIDA > 0
+					   ? "Divida Anterior:" + TRANS(TotDIVIDA, "99,999.99")
+					ENDIF
+					? "Divida Atual..:" +TRANS(TotDIVIDA + (m.totorca - mDesc),"99,999.99")
+				ENDIF
+			    IF !EMPT(cadclie.vencto)
+					IF pData - cadclie.vencto > 40
+						? "Vencimento: "+ DTOC(cadclie.vencto)+ " => CLIENTE EM ATRASO "
+			    	ELSE
+						? "Vencimento: "+ DTOC(cadclie.vencto)
+			   	    ENDIF
+				ELSE
+			   	   ? "Vencimento: "+ DtoC(pData + 30)
+				ENDIF
+		   	
+		   ENDIF	
+		
+		   ? Replicate("-",40)
+		   ? " ESTE CUPOM NAO TEM VALOR FISCAL "
+		   ? Repl("-",40)
+		   If !Empt(pMensa1)
+		      ? pMensa1
+		      ? replicate("-",40)
+		   Endif
+		   If !Empt(pMensa2)
+		      ? pMensa2
+		      ? replicate("-",40)
+		   Endif
+		   ? []
+		   ? []
+		   ? []
+		   ? []
+		   ? []
+		   ? []
+		   ? []
+		   ? []
+		ENDIF
+	   Set Console On
+	   Set Device to Screen
+	   Set Printer Off
+	   SET PRINTER TO
+	   WAIT CLEAR
+   ENDIF
+Endif
+
+DEACTIVATE WINDOW wfecha
+
+IF LASTKEY() = 27
+	SELE vendas
+	SET ORDER TO TAG sequencia
+	SEEK m.sequencia
+	IF FOUND()
+		DELETE
+		FLUSH
+	ENDIF	
+	RETURN
+ENDIF	
+
+OLDESCAPE = SET("ESCAPE")
+SET ESCAPE OFF
+*
+*
+*****************************************************
+*   FUNCAO f_cabe - cabecalho do cupom de or‡amento *
+*****************************************************
+Function f_cabe
+*
+mPag = mpag + 1            && Numero da Pagina
+IF m.tipovenda = 4
+	?  "Cupom No.: " + m.Sequencia
+ENDIF	
+? "Data: "
+?? m.dta_venda                         && Data da Venda
+?? SPACE(8)
+?? "Hora: "+ TIME()
+? CAdfar.Nome          && Plota o nome da Farmacia no cupom
+*? "Terminal: 0     Controle Interno"
+? "Controle Interno"
+? Repl("-",40)
+
+DO CASE
+	CASE m.tipovenda = 1
+		? ALLTRIM(cadfar.palavra) + " A VISTA"
+	CASE m.tipovenda = 4
+		? "VENDA CONVENIO"
+	   	? "Empr.: " + LEFT(CAdemp.nomempre,32)
+	   	? "Conv.: " + cadconv.CONVENIADO
+	   	? "Nome :" + CAdconv.Nome
+	   	? Repl("-",40)
+	CASE  m.tipovenda = 2
+	   	? ALLTRIM(cadfar.palavra) + " A PRAZO"
+	   	? "Cliente: "+ cadclie->codcli
+	   	? ALLTRIM(CAdclie->Nome)
+	   	? Repl("-",40)
+*	   	IF m.pDivCupom = "S"
+*			? "Saldo Acumulado: "+ TRANSF(cadclie.divida + m.totorca, "99,999.99")
+*		ENDIF
+ENDCASE
+*
+? "Atendente: " + Alltrim(CAdvend->nome)  + " Cod.: " + Cadvend->Codvend
+? Repl("-",40)
+? "Produto              Qtd  V.Unit V.Total"
+*
+Return .T.

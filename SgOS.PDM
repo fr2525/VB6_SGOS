@@ -1,0 +1,227 @@
+[Root]
+Most Recent Package=Standard Setup SGL
+
+
+[Package|Standard Setup SGL|Root]
+SubWizProgID=PDWizard.SetupPkgSubWiz
+BuildFolder=d:\sgl\package
+
+[Package|Standard Setup SGL|Configure DAO ISAMs]
+Applicable=No
+
+[Package|Standard Setup SGL|Configure DAO ODBC]
+JetWorkspace=
+ODBCDirect=
+
+[Package|Standard Setup SGL|Files Found]
+dbsgl.dsn=D:\Aplics\VB6.0\SGL\dbsgl.dsn
+DBsgl.mdb=D:\Aplics\VB6.0\SGL\Dados\DBsgl.mdb
+
+[Package|Standard Setup SGL|Files Released]
+User.DLL=
+
+[Package|Standard Setup SGL|Missing Dependency Information]
+C:\Arquivos de programas\Microsoft Office\Office\MSACC9.OLB=
+
+[Package|Standard Setup SGL|Out-of-Date Dependency Information]
+C:\WINDOWS\system32\mscomctl.ocx=
+C:\WINDOWS\system32\CRYSTL32.OCX=
+
+[Package|Standard Setup SGL|Files Added]
+dbsgl.mdb=
+dbsgl.dsn=
+
+[Package|Standard Setup SGL|Files Removed]
+
+[Package|Standard Setup SGL|Files In Project]
+D:\Aplics\VB6.0\SGL\Sgl.exe=Yes
+C:\WINDOWS\system32\msvbvm60.dll=Yes
+C:\Arquivos de programas\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\OLEAUT32.DLL=Yes
+C:\Arquivos de programas\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\OLEPRO32.DLL=Yes
+C:\Arquivos de programas\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\ASYCFILT.DLL=Yes
+C:\Arquivos de programas\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\STDOLE2.TLB=Yes
+C:\Arquivos de programas\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\COMCAT.DLL=Yes
+C:\Arquivos de programas\Arquivos comuns\System\ado\msado25.tlb=Yes
+C:\WINDOWS\system32\MSSTDFMT.DLL=Yes
+C:\Arquivos de programas\Arquivos comuns\Microsoft Shared\DAO\dao360.dll=Yes
+C:\WINDOWS\system32\msjet40.dll=Yes
+C:\WINDOWS\system32\msjter40.dll=Yes
+C:\WINDOWS\system32\msjint40.dll=Yes
+C:\WINDOWS\system32\vbajet32.dll=Yes
+C:\WINDOWS\system32\expsrv.dll=Yes
+C:\WINDOWS\system32\mswstr10.dll=Yes
+C:\WINDOWS\system32\mswdat10.dll=Yes
+C:\WINDOWS\system32\msrd2x40.dll=Yes
+C:\WINDOWS\system32\msrd3x40.dll=Yes
+C:\WINDOWS\system32\msrepl40.dll=Yes
+C:\WINDOWS\system32\msjtes40.dll=Yes
+C:\WINDOWS\system32\VB5DB.DLL=Yes
+C:\WINDOWS\system32\MSBIND.DLL=Yes
+C:\Arquivos de programas\Arquivos comuns\System\ado\msadox.dll=Yes
+C:\Arquivos de programas\Microsoft Office\Office\MSACC9.OLB=Yes
+C:\WINDOWS\system32\DBGRID32.OCX=Yes
+C:\WINDOWS\system32\MSFLXGRD.OCX=Yes
+C:\WINDOWS\system32\TABCTL32.OCX=Yes
+C:\WINDOWS\system32\MSMASK32.OCX=Yes
+C:\WINDOWS\system32\COMCTL32.OCX=Yes
+C:\WINDOWS\system32\COMCT332.OCX=Yes
+C:\WINDOWS\system32\CRYSTL32.OCX=Yes
+C:\WINDOWS\system32\CRPE32.DLL=Yes
+C:\WINDOWS\system32\IMPLODE.DLL=Yes
+C:\WINDOWS\system32\PG32.DLL=Yes
+C:\Arquivos de programas\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\CO2C40EN.DLL=Yes
+C:\Arquivos de programas\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\MSVCRT20.DLL=Yes
+C:\WINDOWS\Crystal\CRXLAT32.DLL=Yes
+C:\WINDOWS\system32\P2BBND.DLL=Yes
+C:\WINDOWS\system32\P2BDAO.DLL=Yes
+C:\WINDOWS\system32\P2CTDAO.DLL=Yes
+C:\WINDOWS\system32\P2IRDAO.DLL=Yes
+C:\WINDOWS\system32\P2SODBC.DLL=Yes
+C:\WINDOWS\Crystal\U2DDISK.DLL=Yes
+C:\WINDOWS\Crystal\U2DMAPI.DLL=Yes
+C:\WINDOWS\Crystal\U2FCR.DLL=Yes
+C:\WINDOWS\Crystal\U2FDIF.DLL=Yes
+C:\WINDOWS\Crystal\U2FHTML.DLL=Yes
+C:\WINDOWS\Crystal\U2FREC.DLL=Yes
+C:\WINDOWS\Crystal\U2FRTF.DLL=Yes
+C:\WINDOWS\Crystal\U2FSEPV.DLL=Yes
+C:\WINDOWS\Crystal\U2FTEXT.DLL=Yes
+C:\WINDOWS\Crystal\U2FWKS.DLL=Yes
+C:\WINDOWS\Crystal\U2FWORDW.DLL=Yes
+C:\WINDOWS\Crystal\U2FXLS.DLL=Yes
+C:\WINDOWS\system32\MSADODC.OCX=Yes
+C:\WINDOWS\system32\MSDATGRD.OCX=Yes
+C:\WINDOWS\system32\mscomctl.ocx=Yes
+C:\Arquivos de programas\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP.EXE=Yes
+C:\Arquivos de programas\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP1.EXE=Yes
+C:\WINDOWS\system32\VB6STKIT.DLL=Yes
+C:\Arquivos de programas\Microsoft Visual Studio\VB98\Wizards\PDWizard\ST6UNST.EXE=Yes
+D:\Aplics\VB6.0\SGL\Dados\DBsgl.mdb=Yes
+D:\Aplics\VB6.0\SGL\dbsgl.dsn=Yes
+
+[Package|Standard Setup SGL|Configure Registry Files]
+Applicable=No
+
+[Package|Standard Setup SGL|Configure Remote Servers]
+Applicable=No
+
+[Package|Standard Setup SGL|Install Locations]
+H:\Aplics\VB6.0\SGL\Sgl.exe=$(AppPath)
+H:\WINNT\system32\msvbvm60.dll=$(WinSysPathSysFile)
+H:\Arquivos de programas\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\OLEAUT32.DLL=$(WinSysPathSysFile)
+H:\Arquivos de programas\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\OLEPRO32.DLL=$(WinSysPathSysFile)
+H:\Arquivos de programas\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\ASYCFILT.DLL=$(WinSysPathSysFile)
+H:\Arquivos de programas\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\STDOLE2.TLB=$(WinSysPathSysFile)
+H:\Arquivos de programas\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\COMCAT.DLL=$(WinSysPathSysFile)
+H:\Arquivos de programas\Arquivos comuns\System\ado\msado25.tlb=$(WinSysPath)
+H:\WINNT\system32\msstdfmt.dll=$(WinSysPath)
+H:\WINNT\system32\DBGRID32.OCX=$(WinSysPath)
+H:\WINNT\system32\MSFLXGRD.OCX=$(WinSysPath)
+H:\WINNT\system32\TABCTL32.OCX=$(WinSysPath)
+H:\WINNT\system32\msmask32.ocx=$(WinSysPath)
+H:\WINNT\system32\COMCTL32.OCX=$(WinSysPath)
+H:\Arquivos de programas\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP.EXE=$(AppPath)
+H:\Arquivos de programas\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP1.EXE=$(WinPath)
+H:\WINNT\system32\VB6STKIT.DLL=$(WinSysPathSysFile)
+H:\Arquivos de programas\Microsoft Visual Studio\VB98\Wizards\PDWizard\ST6UNST.EXE=$(WinPath)
+H:\Aplics\VB6.0\SGL\Dados\DBsgl.mdb=$(AppPath)
+H:\Aplics\VB6.0\SGL\dbsgl.dsn=$(AppPath)
+D:\Aplics\VB6.0\SGL\Sgl.exe=$(AppPath)
+C:\WINDOWS\system32\msvbvm60.dll=$(WinSysPathSysFile)
+C:\Arquivos de programas\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\OLEAUT32.DLL=$(WinSysPathSysFile)
+C:\Arquivos de programas\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\OLEPRO32.DLL=$(WinSysPathSysFile)
+C:\Arquivos de programas\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\ASYCFILT.DLL=$(WinSysPathSysFile)
+C:\Arquivos de programas\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\STDOLE2.TLB=$(WinSysPathSysFile)
+C:\Arquivos de programas\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\COMCAT.DLL=$(WinSysPathSysFile)
+C:\Arquivos de programas\Arquivos comuns\System\ado\msado25.tlb=$(WinSysPath)
+C:\WINDOWS\system32\MSSTDFMT.DLL=$(WinSysPath)
+C:\Arquivos de programas\Arquivos comuns\Microsoft Shared\DAO\dao360.dll=$(MSDAOPath)
+C:\WINDOWS\system32\msjet40.dll=$(WinSysPathSysFile)
+C:\WINDOWS\system32\msjter40.dll=$(WinSysPathSysFile)
+C:\WINDOWS\system32\msjint40.dll=$(WinSysPathSysFile)
+C:\WINDOWS\system32\vbajet32.dll=$(WinSysPathSysFile)
+C:\WINDOWS\system32\expsrv.dll=$(WinSysPathSysFile)
+C:\WINDOWS\system32\mswstr10.dll=$(WinSysPathSysFile)
+C:\WINDOWS\system32\mswdat10.dll=$(WinSysPathSysFile)
+C:\WINDOWS\system32\msrd2x40.dll=$(WinSysPathSysFile)
+C:\WINDOWS\system32\msrd3x40.dll=$(WinSysPathSysFile)
+C:\WINDOWS\system32\msrepl40.dll=$(WinSysPathSysFile)
+C:\WINDOWS\system32\msjtes40.dll=$(WinSysPathSysFile)
+C:\WINDOWS\system32\VB5DB.DLL=$(WinSysPath)
+C:\WINDOWS\system32\MSBIND.DLL=$(WinSysPath)
+C:\Arquivos de programas\Arquivos comuns\System\ado\msadox.dll=$(WinSysPath)
+C:\Arquivos de programas\Microsoft Office\Office\MSACC9.OLB=$(WinSysPath)
+C:\WINDOWS\system32\DBGRID32.OCX=$(WinSysPath)
+C:\WINDOWS\system32\MSFLXGRD.OCX=$(WinSysPath)
+C:\WINDOWS\system32\TABCTL32.OCX=$(WinSysPath)
+C:\WINDOWS\system32\MSMASK32.OCX=$(WinSysPath)
+C:\WINDOWS\system32\COMCTL32.OCX=$(WinSysPath)
+C:\WINDOWS\system32\COMCT332.OCX=$(WinSysPath)
+C:\WINDOWS\system32\CRYSTL32.OCX=$(WinSysPath)
+C:\WINDOWS\system32\CRPE32.DLL=$(WinSysPath)
+C:\WINDOWS\system32\IMPLODE.DLL=$(WinSysPath)
+C:\WINDOWS\system32\PG32.DLL=$(WinSysPath)
+C:\Arquivos de programas\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\CO2C40EN.DLL=$(WinSysPath)
+C:\Arquivos de programas\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\MSVCRT20.DLL=$(WinSysPathSysFile)
+C:\WINDOWS\Crystal\CRXLAT32.DLL=$(WinPath)\Crystal
+C:\WINDOWS\system32\P2BBND.DLL=$(WinSysPath)
+C:\WINDOWS\system32\P2BDAO.DLL=$(WinSysPath)
+C:\WINDOWS\system32\P2CTDAO.DLL=$(WinSysPath)
+C:\WINDOWS\system32\P2IRDAO.DLL=$(WinSysPath)
+C:\WINDOWS\system32\P2SODBC.DLL=$(WinSysPath)
+C:\WINDOWS\Crystal\U2DDISK.DLL=$(WinPath)\Crystal
+C:\WINDOWS\Crystal\U2DMAPI.DLL=$(WinPath)\Crystal
+C:\WINDOWS\Crystal\U2FCR.DLL=$(WinPath)\Crystal
+C:\WINDOWS\Crystal\U2FDIF.DLL=$(WinPath)\Crystal
+C:\WINDOWS\Crystal\U2FHTML.DLL=$(WinPath)\Crystal
+C:\WINDOWS\Crystal\U2FREC.DLL=$(WinPath)\Crystal
+C:\WINDOWS\Crystal\U2FRTF.DLL=$(WinPath)\Crystal
+C:\WINDOWS\Crystal\U2FSEPV.DLL=$(WinPath)\Crystal
+C:\WINDOWS\Crystal\U2FTEXT.DLL=$(WinPath)\Crystal
+C:\WINDOWS\Crystal\U2FWKS.DLL=$(WinPath)\Crystal
+C:\WINDOWS\Crystal\U2FWORDW.DLL=$(WinPath)\Crystal
+C:\WINDOWS\Crystal\U2FXLS.DLL=$(WinPath)\Crystal
+C:\WINDOWS\system32\MSADODC.OCX=$(WinSysPath)
+C:\WINDOWS\system32\MSDATGRD.OCX=$(WinSysPath)
+C:\WINDOWS\system32\mscomctl.ocx=$(WinSysPath)
+C:\Arquivos de programas\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP.EXE=$(AppPath)
+C:\Arquivos de programas\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP1.EXE=$(WinPath)
+C:\WINDOWS\system32\VB6STKIT.DLL=$(WinSysPathSysFile)
+C:\Arquivos de programas\Microsoft Visual Studio\VB98\Wizards\PDWizard\ST6UNST.EXE=$(WinPath)
+D:\Aplics\VB6.0\SGL\Dados\DBsgl.mdb=$(AppPath)
+D:\Aplics\VB6.0\SGL\dbsgl.dsn=$(AppPath)
+
+[Package|Standard Setup SGL|Configure Shared Files]
+Applicable=Yes
+H:\Aplics\VB6.0\SGL\Sgl.exe=No
+H:\Aplics\VB6.0\SGL\Dados\DBsgl.mdb=No
+H:\Aplics\VB6.0\SGL\dbsgl.dsn=No
+D:\Aplics\VB6.0\SGL\Sgl.exe=No
+D:\Aplics\VB6.0\SGL\Dados\DBsgl.mdb=No
+D:\Aplics\VB6.0\SGL\dbsgl.dsn=No
+
+[Package|Standard Setup SGL|Distribution]
+Type=single
+Size=
+Title=Sistema de Gerenciamento Comercial
+
+[Package|Standard Setup SGL|IconGroups]
+Group0=Sistema de Gerenciamento Comercial
+PrivateGroup0=-1
+Parent0=$(Programs)
+
+[Package|Standard Setup SGL|Sistema de Gerenciamento Comercial]
+Icon1=Sgl.exe
+Title1=Sistema de Gerenciamento Comercial
+StartIn1=$(AppPath)
+Key1=Icon1
+
+[Package|Standard Setup SGL|Package]
+PackageFolder=d:\sgl\package
+ProjectFolder=D:\Aplics\VB6.0\SGL
+ServerSideCab=
+File1=d:\sgl\package\setup.exe
+File2=d:\sgl\package\Setup.Lst
+File3=d:\sgl\package\Sgl.CAB
+Handler1=PDWizard.FolderDplySubWiz
+Handler2=PDWizard.WebPostDplySubWiz
