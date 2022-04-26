@@ -44,7 +44,7 @@ Begin VB.MDIForm frmMain
       BeginProperty Panels {0713E89E-850A-101B-AFC0-4210102A8DA7} 
          NumPanels       =   1
          BeginProperty Panel1 {0713E89F-850A-101B-AFC0-4210102A8DA7} 
-            Key             =   ""
+            TextSave        =   ""
             Object.Tag             =   ""
          EndProperty
       EndProperty
@@ -275,7 +275,7 @@ Private Sub MDIForm_Load()
     Top = GetSetting(App.Title, "Settings", "MainTop", 1000)
     Width = GetSetting(App.Title, "Settings", "MainWidth", 6500)
     Height = GetSetting(App.Title, "Settings", "MainHeight", 6500)
-    LocalFoto = App.Path & "\ponte.bmp"
+    LocalFoto = App.Path & "\soapple.jpg"
     If gNivel > 1 Then
         mnclientes.Enabled = False
         mnBalconistas.Enabled = False
@@ -291,7 +291,7 @@ Private Sub MDIForm_Load()
         Mntipovend.Enabled = False
         mnTiposUnidade.Enabled = False
     End If
-    'Me.Picture = LocalFoto
+    Me.Picture = LoadPicture(LocalFoto)
 End Sub
 
 Private Sub MDIForm_QueryUnload(Cancel As Integer, UnloadMode As Integer)

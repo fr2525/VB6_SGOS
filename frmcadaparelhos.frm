@@ -201,6 +201,7 @@ Private Sub cmdAdd_Click()
      
    Me.LblCodigo.Caption = ""
    Me.TxtDescricao.SetFocus
+   lIncluir = True
    suCmdAdd Me
    
 End Sub
@@ -245,17 +246,16 @@ Private Sub cmdUpdate_Click()
    If lIncluir Then
       gSql = "INSERT INTO tab_aparelhos (descricao,operador,datatual) " & _
                           "VALUES ( '" & Me.TxtDescricao.text & "'," & _
-                                         gOperador & ",'" & _
-                                         Now & "')"
+                                         gnCodOperador & ",'" & fuDateSQL() & "')"
       ConDb.Execute gSql
       lIncluir = False
    Else
-      gSql = "UPDATE tab_aparelhos SET descricao = '" & Me.TxtDescricao.text & "'," & _
-                                "', operador = " & gOperador & _
-                                ", datatual = '" & Now & "'" & _
+      gSql = "UPDATE tab_aparelhos SET descricao = '" & Me.TxtDescricao.text & "'" & _
+                                ", operador = " & gnCodOperador & _
+                                ", datatual = '" & fuDateSQL() & "'" & _
                                 " WHERE id = " & Val(Me.LblCodigo.Caption)
       ConDb.Execute gSql
-
+        
    End If
    
    Abre_Le_rst
@@ -277,6 +277,8 @@ Private Sub Form_Activate()
    If gRs.BOF And gRs.EOF Then
       MsgBox "Arquivo vazio. Incluir dados agora ?", vbYesNo, "Atenção "
       lPrimeiro = True
+      lIncluir = True
+      cmdEditar_Click
       Exit Sub
    Else
       gRs.MoveFirst
@@ -285,10 +287,10 @@ Private Sub Form_Activate()
       Desabilita Me
       lIncluir = False
       lPrimeiro = False
+      Carrega_Grid
    End If
-   Carrega_Grid
-   
-   lIncluir = False
+
+   'lIncluir = False
    
 End Sub
 
@@ -303,7 +305,7 @@ Private Sub Form_Load()
    
   End Sub
 Private Sub Abre_Le_rst()
-   gSql = "select * from cadmoe"
+   gSql = "select * from tab_aparelhos"
    gRs.Open gSql, ConDb, adOpenKeyset, adLockOptimistic
 End Sub
 
@@ -333,7 +335,7 @@ Private Sub MSFlexGrid1_Click()
     
     .Col = 0:   LblCodigo.Caption = .text: .CellBackColor = vbYellow
     .Col = 1:   TxtDescricao.text = .text: .CellBackColor = vbYellow
-    .Col = 2:   TxtSimbolo.text = .text: .CellBackColor = vbYellow
+    '.Col = 2:   TxtSimbolo.text = .text: .CellBackColor = vbYellow
      .Redraw = True
   End With
 
@@ -343,6 +345,6 @@ Private Sub TxtDescricao_KeyPress(KeyAscii As Integer)
     If KeyAscii = 13 Or KeyAscii = 9 Then KeyAscii = 0
 End Sub
 
-Private Sub TxtSimbolo_KeyPress(KeyAscii As Integer)
-    If KeyAscii = 13 Or KeyAscii = 9 Then KeyAscii = 0
-End Sub
+'Private Sub TxtSimbolo_KeyPress(KeyAscii As Integer)
+'    If KeyAscii = 13 Or KeyAscii = 9 Then KeyAscii = 0
+'End Sub

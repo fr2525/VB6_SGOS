@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "msflxgrd.ocx"
+Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "MSFLXGRD.OCX"
 Begin VB.Form Frmtipovend 
    BorderStyle     =   3  'Fixed Dialog
    Caption         =   "Tipos de Venda"
@@ -206,7 +206,7 @@ Private lIncluir As Boolean
 Private lPrimeiro As Boolean
 
 Private Sub Abre_Le_rst()
-   gSql = "select * FROM tipovend"
+   gSql = "select * FROM tab_tipovenda"
    gRs.Open gSql, ConDb, adOpenKeyset
    
 End Sub
@@ -223,12 +223,12 @@ Private Sub Carrega_Grid()
       Do While Not .EOF
          MSFlexGrid1.Rows = MSFlexGrid1.Rows + 1
          MSFlexGrid1.Row = MSFlexGrid1.Rows - 1
-         MSFlexGrid1.Col = 0: MSFlexGrid1.Text = f_nulo(!código, "")
-         MSFlexGrid1.Col = 1: MSFlexGrid1.Text = f_nulo(!descricao, "")
-         MSFlexGrid1.Col = 2: MSFlexGrid1.Text = f_nulo(!entrada, "")
-         MSFlexGrid1.Col = 3: MSFlexGrid1.Text = f_nulo(!dias, "")
-         MSFlexGrid1.Col = 4: MSFlexGrid1.Text = f_nulo(!parcelas, "")
-         MSFlexGrid1.Col = 5: MSFlexGrid1.Text = f_nulo(!Especial, "")
+         MSFlexGrid1.Col = 0: MSFlexGrid1.text = f_nulo(!id, "")
+         MSFlexGrid1.Col = 1: MSFlexGrid1.text = f_nulo(!descricao, "")
+         MSFlexGrid1.Col = 2: MSFlexGrid1.text = f_nulo(!Entrada, "")
+         MSFlexGrid1.Col = 3: MSFlexGrid1.text = f_nulo(!dias, "")
+         MSFlexGrid1.Col = 4: MSFlexGrid1.text = f_nulo(!parcelas, "")
+         MSFlexGrid1.Col = 5: MSFlexGrid1.text = f_nulo(!Especial, "")
          .MoveNext
          
        Loop
@@ -242,10 +242,10 @@ Private Sub Carrega_tela()
    'Limpa as variaveis da tela se caso ficarem com dados da outra tela
    limpa_tela Me
    'Carrega a tela com os dados do registro
-   Me.Lbltipovend.Caption = gRs("código")
-   Me.TxtDescricao.Text = gRs("descricao")
-   Me.TxtDias.Text = gRs("dias")
-   Me.TxtEntrada = gRs!entrada
+   Me.Lbltipovend.Caption = gRs("id")
+   Me.TxtDescricao.text = gRs("descricao")
+   Me.TxtDias.text = gRs("dias")
+   Me.TxtEntrada = gRs!Entrada
    Me.TxtParcelas = gRs!parcelas
    Me.TxtEspecial = gRs!Especial
    
@@ -273,7 +273,7 @@ Private Sub cmdDelete_Click()
     'this may produce an error if you delete the last
     'record or the only record in the recordset
     If MsgBox("Deseja realmente apagar este Tipo de Venda ? ", vbYesNo, "Atenção") = vbYes Then
-        gSql = "delete * from tipovend where código = " & Val(Me.Lbltipovend.Caption)
+        gSql = "delete * from tipovend where id = " & Val(Me.Lbltipovend.Caption)
         ConDb.Execute gSql
         gRs.Close
         Abre_Le_rst
@@ -328,22 +328,22 @@ Private Sub cmdUpdate_Click()
    gRs.Close
    If lIncluir Then
       gSql = "INSERT INTO tipovend (descricao,entrada,dias,parcelas,especial,operador,datatual) "
-      gSql = gSql & "VALUES ('" & Me.TxtDescricao.Text & "','"
-      gSql = gSql & Me.TxtEntrada.Text & "','" & Me.TxtDias.Text & "','"
-      gSql = gSql & Me.TxtParcelas.Text & "','"
-      gSql = gSql & Me.TxtEspecial.Text & "',"
+      gSql = gSql & "VALUES ('" & Me.TxtDescricao.text & "','"
+      gSql = gSql & Me.TxtEntrada.text & "','" & Me.TxtDias.text & "','"
+      gSql = gSql & Me.TxtParcelas.text & "','"
+      gSql = gSql & Me.TxtEspecial.text & "',"
       gSql = gSql & "'" & gOperador & "',Cdate('" & Date & "'))"
       ConDb.Execute gSql
       lIncluir = False
       
    Else
-      gSql = "UPDATE tipovend SET descricao = '" & Me.TxtDescricao.Text & "',"
-      gSql = gSql & "entrada = '" & IIf(Me.TxtEntrada.Text = "S", "S", "N") & "',"
-      gSql = gSql & "dias = '" & Val(Me.TxtDias.Text) & "',"
-      gSql = gSql & "parcelas = '" & Val(Me.TxtParcelas.Text) & "',"
-      gSql = gSql & "especial = '" & Me.TxtEspecial.Text & "',"
+      gSql = "UPDATE tipovend SET descricao = '" & Me.TxtDescricao.text & "',"
+      gSql = gSql & "entrada = '" & IIf(Me.TxtEntrada.text = "S", "S", "N") & "',"
+      gSql = gSql & "dias = '" & Val(Me.TxtDias.text) & "',"
+      gSql = gSql & "parcelas = '" & Val(Me.TxtParcelas.text) & "',"
+      gSql = gSql & "especial = '" & Me.TxtEspecial.text & "',"
       gSql = gSql & " operador = '" & gOperador & "', datatual = Cdate('" & Date & "')"
-      gSql = gSql & " WHERE código = " & Val(Lbltipovend.Caption)
+      gSql = gSql & " WHERE id = " & Val(Lbltipovend.Caption)
       ConDb.Execute gSql
             
    End If
@@ -374,15 +374,15 @@ Private Sub Form_Activate()
   If gRs.BOF And gRs.EOF Then
       If MsgBox("Arquivo vazio. Incluir dados agora ?", vbYesNo, "Atenção ") = vbYes Then
          gSql = "INSERT INTO tipovend (descricao,entrada,dias,parcelas,especial,operador,datatual) "
-         gSql = gSql & "VALUES ('" & Me.TxtDescricao.Text & "','"
-         gSql = gSql & Me.TxtEntrada.Text & "','" & Me.TxtDias.Text & "','"
-         gSql = gSql & Me.TxtParcelas.Text & "','"
-         gSql = gSql & Me.TxtEspecial.Text & "',"
+         gSql = gSql & "VALUES ('" & Me.TxtDescricao.text & "','"
+         gSql = gSql & Me.TxtEntrada.text & "','" & Me.TxtDias.text & "','"
+         gSql = gSql & Me.TxtParcelas.text & "','"
+         gSql = gSql & Me.TxtEspecial.text & "',"
          gSql = gSql & "'" & gOperador & "'," & Date & " )"
          ConDb.Execute gSql
          gRs.Close
          Abre_Le_rst
-         Me.Lbltipovend.Caption = gRs!código
+         Me.Lbltipovend.Caption = gRs!id
          cmdEditar_Click
          lPrimeiro = True
       Else
@@ -404,7 +404,7 @@ Private Sub Form_Activate()
 End Sub
 
 Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
-  If KeyCode = vbKeyReturn Then SendKeys "{TAB}"
+  If KeyCode = vbKeyReturn Then Sendkeys "{TAB}"
      
 End Sub
 
@@ -445,12 +445,12 @@ Dim oldrow As Long
     
     .Row = oldrow
     
-    .Col = 0:   Lbltipovend.Caption = .Text: .CellBackColor = vbYellow
-    .Col = 1:   TxtDescricao.Text = .Text: .CellBackColor = vbYellow
-    .Col = 2:   TxtEntrada.Text = .Text: .CellBackColor = vbYellow
-    .Col = 3:   TxtDias.Text = .Text: .CellBackColor = vbYellow
-    .Col = 4:   TxtParcelas.Text = .Text: .CellBackColor = vbYellow
-    .Col = 5:   TxtEspecial.Text = .Text: .CellBackColor = vbYellow
+    .Col = 0:   Lbltipovend.Caption = .text: .CellBackColor = vbYellow
+    .Col = 1:   TxtDescricao.text = .text: .CellBackColor = vbYellow
+    .Col = 2:   TxtEntrada.text = .text: .CellBackColor = vbYellow
+    .Col = 3:   TxtDias.text = .text: .CellBackColor = vbYellow
+    .Col = 4:   TxtParcelas.text = .text: .CellBackColor = vbYellow
+    .Col = 5:   TxtEspecial.text = .text: .CellBackColor = vbYellow
     .TopRow = .Row
    
 End With
@@ -458,8 +458,8 @@ End With
 End Sub
 
 Private Sub TxtEntrada_Validate(Cancel As Boolean)
-    TxtEntrada.Text = UCase(TxtEntrada.Text)
-    If UCase(TxtEntrada.Text) <> "S" And UCase(TxtEntrada.Text) <> "N" Then
+    TxtEntrada.text = UCase(TxtEntrada.text)
+    If UCase(TxtEntrada.text) <> "S" And UCase(TxtEntrada.text) <> "N" Then
        MsgBox "Digite somente 'S' ou 'N' por favor", vbOKOnly, "Atenção: " + gOperador
        Cancel = True
     End If

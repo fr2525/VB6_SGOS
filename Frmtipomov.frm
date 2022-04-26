@@ -164,7 +164,7 @@ Private lIncluir As Boolean
 Private lPrimeiro As Boolean
 
 Private Sub Abre_Le_rst()
-   gSql = "select * FROM tipomov"
+   gSql = "select * FROM tab_tipomov"
    gRs.Open gSql, ConDb, adOpenKeyset
     
 End Sub
@@ -182,9 +182,9 @@ Private Sub Carrega_Grid()
          MSFlexGrid1.Rows = MSFlexGrid1.Rows + 1
          MSFlexGrid1.Row = MSFlexGrid1.Rows - 1
             
-         MSFlexGrid1.Col = 0: MSFlexGrid1.Text = f_nulo(!tipo, "")
-         MSFlexGrid1.Col = 1: MSFlexGrid1.Text = f_nulo(!descricao, "")
-         MSFlexGrid1.Col = 2: MSFlexGrid1.Text = f_nulo(!E_S, "")
+         MSFlexGrid1.Col = 0: MSFlexGrid1.text = f_nulo(!id, "")
+         MSFlexGrid1.Col = 1: MSFlexGrid1.text = f_nulo(!descricao, "")
+         MSFlexGrid1.Col = 2: MSFlexGrid1.text = f_nulo(!E_S, "")
          
          .MoveNext
          
@@ -198,9 +198,9 @@ Private Sub Carrega_Grid()
 Private Sub Carrega_tela()
    
    'Carrega a tela com os dados do registro
-   Me.Lbltipomov.Caption = gRs("tipo")
-   Me.Txtdescricao.Text = gRs("descricao")
-   Me.TxtE_S.Text = gRs("E_S")
+   Me.Lbltipomov.Caption = gRs("id")
+   Me.TxtDescricao.text = gRs("descricao")
+   Me.TxtE_S.text = gRs("E_S")
    
 End Sub
 
@@ -209,14 +209,14 @@ Private Sub cmdAdd_Click()
    limpa_tela Me
    
    Me.Lbltipomov.Caption = ""
-   Me.Txtdescricao.SetFocus
+   Me.TxtDescricao.SetFocus
    Me.cmdUpdate.Enabled = True
    Me.cmddesfaz.Enabled = True
    Me.cmdEditar.Enabled = False
    Me.cmdAdd.Enabled = False
    Me.CmdSair.Enabled = False
    Me.cmdDelete.Enabled = False
-   Me.Txtdescricao.SetFocus
+   Me.TxtDescricao.SetFocus
 End Sub
 
 Private Sub cmdDelete_Click()
@@ -226,7 +226,7 @@ Private Sub cmdDelete_Click()
     'this may produce an error if you delete the last
     'record or the only record in the recordset
     If MsgBox("Deseja realmente apagar este Tipo de Movimentação? ", vbYesNo, "Atenção") = vbYes Then
-        gSql = "delete * from tipomov where tipo = " & Val(Me.Lbltipomov.Caption)
+        gSql = "delete * from tab_tipomov where id = " & Val(Me.Lbltipomov.Caption)
         ConDb.Execute gSql
         gRs.Close
         Abre_Le_rst
@@ -265,7 +265,7 @@ Private Sub cmdEditar_Click()
    Me.cmdAdd.Enabled = False
    Me.CmdSair.Enabled = False
    Me.cmdDelete.Enabled = False
-   Me.Txtdescricao.SetFocus
+   Me.TxtDescricao.SetFocus
 End Sub
 
 Private Sub CmdSair_Click()
@@ -275,17 +275,17 @@ End Sub
 Private Sub cmdUpdate_Click()
    gRs.Close
    If lIncluir Then
-      gSql = "INSERT INTO tipomov (descricao,e_s,operador,datatual) "
-      gSql = gSql & "VALUES ('" & Me.Txtdescricao.Text & "','" & Me.TxtE_S.Text & "','"
-      gSql = gSql & gOperador & "',Cdate('" & Date & "') "
+      gSql = "INSERT INTO tab_tipomov (descricao,e_s,operador,datatual) "
+      gSql = gSql & "VALUES ('" & Me.TxtDescricao.text & "','" & Me.TxtE_S.text & "',"
+      gSql = gSql & gnCodOperador & ",'" & fuDateSQL() & "')"
       ConDb.Execute gSql
       lIncluir = False
       
    Else
-      gSql = "UPDATE tipomov SET descricao = '" & Me.Txtdescricao.Text
-      gSql = gSql & "', e_s = '" & Me.TxtE_S.Text & "',"
-      gSql = gSql & " operador = '" & gOperador & "', datatual = Cdate('" & Date & "')"
-      gSql = gSql & " WHERE tipo = " & Val(Me.Lbltipomov.Caption)
+      gSql = "UPDATE tab_tipomov SET descricao = '" & Me.TxtDescricao.text
+      gSql = gSql & "', e_s = '" & Me.TxtE_S.text & "',"
+      gSql = gSql & " operador = " & gnCodOperador & ", datatual = '" & fuDateSQL() & "'"
+      gSql = gSql & " WHERE id = " & Val(Me.Lbltipomov.Caption)
       ConDb.Execute gSql
    End If
       
@@ -312,13 +312,13 @@ Private Sub Form_Activate()
    Me.Lbltipomov.Caption = ""
    If gRs.BOF And gRs.EOF Then
       If MsgBox("Arquivo vazio. Incluir dados agora ?", vbYesNo, "Atenção ") = vbYes Then
-         gSql = "INSERT INTO tipomov (descricao,e_s,operador,datatual) "
-         gSql = gSql & "VALUES ('" & Me.Txtdescricao.Text & "','" & Me.TxtE_S.Text & "','"
-         gSql = gSql & gOperador & "'," & Date & " ) "
+         gSql = "INSERT INTO tab_tipomov (descricao,e_s,operador,datatual) "
+         gSql = gSql & "VALUES ('" & Me.TxtDescricao.text & "','" & Me.TxtE_S.text & "',"
+         gSql = gSql & gnCodOperador & ",'" & fuDateSQL() & "')"
          ConDb.Execute gSql
          gRs.Close
          Abre_Le_rst
-         Me.Lbltipomov.Caption = gRs!tipo
+         Me.Lbltipomov.Caption = gRs!id
          cmdEditar_Click
          lPrimeiro = True
       Else
@@ -340,7 +340,7 @@ Private Sub Form_Activate()
 End Sub
 
 Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
-   If KeyCode = vbKeyReturn Then SendKeys "{TAB}"
+   If KeyCode = vbKeyReturn Then Sendkeys "{TAB}"
 End Sub
 
 Private Sub Form_Load()
@@ -380,9 +380,9 @@ Dim oldrow As Long
     
     .Row = oldrow
     
-    .Col = 0:   Lbltipomov.Caption = .Text: .CellBackColor = vbYellow
-    .Col = 1:   Txtdescricao.Text = .Text: .CellBackColor = vbYellow
-    .Col = 2:   TxtE_S.Text = .Text: .CellBackColor = vbYellow
+    .Col = 0:   Lbltipomov.Caption = .text: .CellBackColor = vbYellow
+    .Col = 1:   TxtDescricao.text = .text: .CellBackColor = vbYellow
+    .Col = 2:   TxtE_S.text = .text: .CellBackColor = vbYellow
     .TopRow = .Row
    
 End With

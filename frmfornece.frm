@@ -16,27 +16,19 @@ Begin VB.Form frmfornec
    ScaleWidth      =   7125
    ShowInTaskbar   =   0   'False
    Tag             =   "cadvend"
+   Begin VB.TextBox txtCnpj 
+      Height          =   285
+      Left            =   2880
+      TabIndex        =   0
+      Top             =   120
+      Width           =   1875
+   End
    Begin VB.TextBox TxtObserv 
       Height          =   285
       Left            =   1200
       TabIndex        =   12
       Top             =   2415
       Width           =   5445
-   End
-   Begin MSMask.MaskEdBox MskCNPJ 
-      Height          =   300
-      Left            =   3060
-      TabIndex        =   1
-      Top             =   120
-      Width           =   1815
-      _ExtentX        =   3201
-      _ExtentY        =   529
-      _Version        =   393216
-      PromptInclude   =   0   'False
-      AutoTab         =   -1  'True
-      MaxLength       =   18
-      Mask            =   "##.###.###/####-##"
-      PromptChar      =   "_"
    End
    Begin VB.TextBox TxtInsc_est 
       Height          =   285
@@ -318,8 +310,8 @@ Begin VB.Form frmfornec
       ForeColor       =   &H000000FF&
       Height          =   210
       Left            =   1410
-      TabIndex        =   0
-      Top             =   165
+      TabIndex        =   1
+      Top             =   150
       Width           =   975
    End
    Begin VB.Label lblLabels 
@@ -342,6 +334,12 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Private lIncluir As Boolean
 Private pRsFornec As ADODB.Recordset
+Private Sub TrataMensagensTeclas()
+   ' LblTeclas.Caption = ""
+   ' LblTeclas.Caption = " [ F6 ] Salvar [ F4 ] Limpa dados Tela "
+'    lblTeclas2.Caption = "[ esc ] Sair"
+    
+End Sub
 
 Private Sub Abre_Le_rst()
   gSql = "select * FROM tab_fornece"
@@ -427,7 +425,7 @@ Private Sub cmdUpdate_Click()
    gRs.Close
    If lIncluir Then
       gSql = "SELECT cnpj from tab_fornece "
-      gSql = gSql & " WHERE cnpj1 = '" & Me.MskCNPJ.text & "'"
+      gSql = gSql & " WHERE cnpj = '" & Me.txtCnpj.text & "'"
       pRsFornec.Open gSql, ConDb, adOpenForwardOnly, adLockOptimistic
       
       If pRsFornec.BOF And pRsFornec.EOF Then
@@ -449,7 +447,7 @@ Private Sub cmdUpdate_Click()
       gSql = gSql & Me.TxtTelefone.text & "','"
       gSql = gSql & Me.TxtCelular.text & "','"
       gSql = gSql & Me.TxtContato.text & "','"
-      gSql = gSql & Me.MskCNPJ.text & "','"
+      gSql = gSql & Me.txtCnpj.text & "','"
       gSql = gSql & Me.TxtInsc_est.text & "','"
       gSql = gSql & Me.TxtObserv.text & "'"
       gSql = gSql & "," & gnCodOperador & ",'" & fuDateSQL() & "')"
@@ -465,7 +463,7 @@ Private Sub cmdUpdate_Click()
       gSql = gSql & "Telefone = '" & Me.TxtTelefone.text & "',"
       gSql = gSql & "celular = '" & Me.TxtCelular.text & "',"
       gSql = gSql & "contato = '" & Me.TxtContato.text & "',"
-      gSql = gSql & "CNPJ = '" & Me.MskCNPJ.text & "',"
+      gSql = gSql & "CNPJ = '" & Me.txtCnpj.text & "',"
       gSql = gSql & "Insc_est = '" & Me.TxtInsc_est.text & "',"
       gSql = gSql & "Observacao = '" & Me.TxtObserv.text & "'"
       gSql = gSql & " ,operador = " & gnCodOperador & ", datatual = '" & fuDateSQL() & "'"
@@ -565,7 +563,7 @@ Private Sub MSFlexGrid1_Click()
     
     .Col = 0:   LblCodfor.Caption = .text: .CellBackColor = vbYellow
     .Col = 1:   TxtNome.text = .text: .CellBackColor = vbYellow
-    .Col = 2:   MskCNPJ.text = .text: .CellBackColor = vbYellow
+    .Col = 2:   txtCnpj.text = .text: .CellBackColor = vbYellow
     .Col = 3:   TxtEndereco.text = .text: .CellBackColor = vbYellow
     .Col = 4:   TxtBairro.text = .text: .CellBackColor = vbYellow
     .Col = 5:   TxtCidade.text = .text: .CellBackColor = vbYellow
@@ -599,7 +597,7 @@ Private Sub Carrega_tela()
    Me.TxtTelefone.text = "" & gRs("Telefone")
    Me.TxtCelular.text = "" & gRs("celular")
    Me.TxtContato.text = "" & gRs("Contato")
-   Me.MskCNPJ.text = "" & gRs("cnpj")
+   Me.txtCnpj.text = "" & gRs("cnpj")
    Me.TxtInsc_est.text = "" & gRs("Insc_est")
    Me.TxtObserv.text = "" & gRs("Observacao")
    
@@ -643,35 +641,148 @@ Private Sub Carrega_Grid()
   End Sub
 
 
-Private Sub MskCNPJ_GotFocus()
-   MskCNPJ.Mask = "##############"
+Private Sub TXTCNPJ_GotFocus()
+Dim cont        As Integer
+Dim strAux      As String
+
+strAux = ""
+
+txtCnpj.text = SemFormatoCPF_CNPJ(txtCnpj.text)
+
+Call SelText(txtCnpj)
+If Tipo = "A" Then
+    'LblTeclas.Caption = "Digite o CPF/CNPJ a pesquisar e dï¿½ [ENTER]"
+Else
+    TrataMensagensTeclas
+End If
+
 End Sub
 
-Private Sub MskCnpj_KeyPress(KeyAscii As Integer)
-If KeyAscii = 13 Or KeyAscii = 9 Then KeyAscii = 0
-End Sub
+Private Sub TXTCnpj_KeyPress(KeyAscii As Integer)
+Dim CPF_CNPJ        As String
+Dim CodKey          As Integer
 
-Private Sub MskCNPJ_LostFocus()
-   If Len(MskCNPJ.text) > 0 Then
-      Select Case Len(MskCNPJ.text)
-       Case Is = 11
-         MskCNPJ.Mask = "###.###.###-##"
-         If Not calculacpf(MskCNPJ.text) Then
-            MsgBox "CPF com DV incorreto !!!"
-            MskCNPJ = ""
-            MskCNPJ.Mask = "##############"
-            MskCNPJ.SetFocus
-         End If
-       Case Is = 14
-         MskCNPJ.Mask = "##.###.###/####-##"
-         If Not ValidaCGC(MskCNPJ.text) Then
-            MsgBox "CGC com DV incorreto !!! "
-            MskCNPJ = ""
-            MskCNPJ.Mask = "##############"
-            MskCNPJ.SetFocus
-         End If
-      End Select
+CodKey = KeyAscii
+
+If KeyAscii <> 13 And KeyAscii <> 8 And KeyAscii < 48 Or KeyAscii > 57 Then
+    KeyAscii = 0
+End If
+
+If CodKey = 13 Then
+'*
+'*** Fabio Reinert (Alemï¿½o) - 08/2017 - Alteraï¿½ï¿½o para pesquisa de cliente por CNPJ/CPF tambï¿½m - Inicio
+'*
+'    If TXTcNPJ.Text <> "" Then
+'        CPF_CNPJ = SemFormatoCPF_CNPJ(TXTcNPJ.Text)
+'        If Len(CPF_CNPJ) = 11 Then
+'            If Not (ValidaCPF(CPF_CNPJ)) Then
+'                If MsgBox("CPF Invï¿½lido !" & vbNewLine & "Deseja Prosseguir...?", vbQuestion + vbYesNo + vbDefaultButton2) = vbNo Then
+'                    TXTcNPJ.SetFocus
+'                    Exit Sub
+'                Else
+'                    txtFone1Principal.SetFocus
+'                End If
+'            End If
+'        ElseIf Len(CPF_CNPJ) = 14 Then
+'            If Not (ValidaCGC(CPF_CNPJ)) Then
+'                If MsgBox("CNPJ Invï¿½lido !" & vbNewLine & "Deseja Prosseguir...?", vbQuestion + vbYesNo + vbDefaultButton2) = vbNo Then
+'                    TXTcNPJ.SetFocus
+'                    Exit Sub
+'                Else
+'                    txtFone1Principal.SetFocus
+'                End If
+'            End If
+'        Else
+'            If MsgBox("CNPJ Invï¿½lido !" & vbNewLine & "Deseja Prosseguir...?", vbQuestion + vbYesNo + vbDefaultButton2) = vbNo Then
+'                TXTcNPJ.SetFocus
+'                Exit Sub
+'            Else
+'                SendKeys "{tab}"
+'            End If
+'        End If
+'    Else
+'        'MsgBox "O campo CPF/CNPJ, ï¿½ Obrigatï¿½rio !", 64, "Aviso"
+'        'TXTcNPJ.SetFocus
+'        'Exit Sub
+'    End If
+'
+'    If Len(TXTcNPJ.Text) = 11 Then
+'        TXTcNPJ.Text = FormatCPF_CNPJ(TXTcNPJ.Text)
+'    ElseIf Len(TXTcNPJ.Text) = 14 Then
+'        TXTcNPJ.Text = FormatCPF_CNPJ(TXTcNPJ.Text)
+'    End If
+'    txtFone1Principal.SetFocus
+    
+    If txtCnpj.text = "" Then
+        'mskCepEndPrincipal.SetFocus
+        txtFone1Principal.SetFocus
+        Exit Sub
     End If
+    CPF_CNPJ = SemFormatoCPF_CNPJ(txtCnpj.text)
+    If Len(CPF_CNPJ) = 11 Then
+        If Not (ValidaCPF(CPF_CNPJ)) Then
+            If MsgBox("CPF Inválido !" & vbNewLine & "Deseja Prosseguir...?", vbQuestion + vbYesNo + vbDefaultButton2) = vbNo Then
+                txtCnpj.SetFocus
+                Exit Sub
+            End If
+        End If
+    ElseIf Len(CPF_CNPJ) = 14 Then
+        If Not (ValidaCGC(CPF_CNPJ)) Then
+            If MsgBox("CNPJ Inválido !" & vbNewLine & "Deseja Prosseguir...?", vbQuestion + vbYesNo + vbDefaultButton2) = vbNo Then
+                txtCnpj.SetFocus
+                Exit Sub
+            End If
+        End If
+    Else
+        If MsgBox("CPF/CNPJ Invï¿½lido !" & vbNewLine & "Deseja Prosseguir...?", vbQuestion + vbYesNo + vbDefaultButton2) = vbNo Then
+            txtCnpj.SetFocus
+            Exit Sub
+         End If
+    End If
+    If Tipo = "A" Then
+        If Len(TxtRazaoSocial.text) = 0 Then
+            If Cnn.State = adStateOpen Then
+                Cnn.Close
+            End If
+            Call sConectaBanco
+            strsql = "Select * from Cliente WHERE CGC_CPF = '" & FormatCPF_CNPJ(CPF_CNPJ) & "'"
+            'lblcodCli.Caption = CodCliente
+            Set Rstemp = New ADODB.Recordset
+            Rstemp.Open strsql, Cnn, 1, 2
+            strsql = ""
+            If Rstemp.RecordCount = 0 Then
+                MsgBox "CPF/CNPJ nï¿½o encontrado!", vbOKOnly, "Aviso"
+                txtCnpj.SetFocus
+            Else
+                Call MontaCampos
+                Call Liberacampo
+                lblcodCli.Caption = Rstemp!Codigo
+                mskCepEndPrincipal.SetFocus
+            End If
+        Else
+            txtCnpj.text = FormatCPF_CNPJ(txtCnpj.text)
+            txtFone1Principal.SetFocus
+        End If
+        
+    End If
+'*
+'*** Fabio Reinert (Alemï¿½o) - 08/2017 - Alteraï¿½ï¿½o para pesquisa de cliente por CNPJ/CPF tambï¿½m - Fim
+'*
+
+End If
+
+End Sub
+
+Private Sub TXTCNPJ_LostFocus()
+Dim CPF_CNPJ        As String
+If InStr(txtCnpj.text, ".") = 0 Then
+    If Len(txtCnpj.text) = 11 Then
+        txtCnpj.text = FormatCPF_CNPJ(txtCnpj.text)
+    ElseIf Len(txtCnpj.text) = 14 Then
+        txtCnpj.text = FormatCPF_CNPJ(txtCnpj.text)
+    End If
+End If
+
 
 End Sub
 
@@ -690,6 +801,10 @@ End Sub
 Private Sub TxtCidade_KeyPress(KeyAscii As Integer)
    If KeyAscii = 13 Or KeyAscii = 9 Then KeyAscii = 0
 End Sub
+
+
+
+
 
 Private Sub TxtContato_KeyPress(KeyAscii As Integer)
    If KeyAscii = 13 Or KeyAscii = 9 Then KeyAscii = 0

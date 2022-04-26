@@ -161,8 +161,8 @@ Private Sub Carrega_Grid()
          MSFlexGrid1.Rows = MSFlexGrid1.Rows + 1
          MSFlexGrid1.Row = MSFlexGrid1.Rows - 1
             
-         MSFlexGrid1.Col = 0: MSFlexGrid1.Text = f_nulo(!codgrupo, "")
-         MSFlexGrid1.Col = 1: MSFlexGrid1.Text = f_nulo(!descricao, "")
+         MSFlexGrid1.Col = 0: MSFlexGrid1.text = f_nulo(!idgrupo, "")
+         MSFlexGrid1.Col = 1: MSFlexGrid1.text = f_nulo(!descricao, "")
          
          .MoveNext
          
@@ -177,8 +177,8 @@ Private Sub Carrega_tela()
    'Limpa as variaveis da tela se caso ficarem com dados da outra tela
    limpa_tela Me
    'Carrega a tela com os dados do registro
-   Me.Lblcodgrupo = gRs("codgrupo")
-   Me.TxtDescricao.Text = gRs("descricao")
+   Me.Lblcodgrupo = gRs("idgrupo")
+   Me.TxtDescricao.text = gRs("descricao")
      
 End Sub
 
@@ -208,7 +208,7 @@ Private Sub cmdDelete_Click()
     'this may produce an error if you delete the last
     'record or the only record in the recordset
     If MsgBox("Deseja realmente apagar este Grupo ? ", vbYesNo, "Atenção") = vbYes Then
-       gSql = "delete * from tab_grupos where codgrupo = " & Val(Me.Lblcodgrupo.Caption)
+       gSql = "delete * from tab_grupos where idgrupo = " & Val(Me.Lblcodgrupo.Caption)
        ConDb.Execute gSql
        gRs.Close
        Abre_Le_rst
@@ -264,14 +264,14 @@ Private Sub cmdUpdate_Click()
    gRs.Close
    If lIncluir Then
       gSql = "INSERT INTO tab_grupos (descricao,operador,datatual) "
-      gSql = gSql & "VALUES ('" & Me.TxtDescricao.Text & "',"
-      gSql = gSql & "'" & gOperador & "',Cdate('" & Date & "') ) "
+      gSql = gSql & "VALUES ('" & Me.TxtDescricao.text & "',"
+      gSql = gSql & gnCodOperador & ",'" & fuDateSQL() & "')"
       ConDb.Execute gSql
       lIncluir = False
    Else
-      gSql = "UPDATE tab_grupos SET descricao = '" & Me.TxtDescricao.Text & "'"
-      gSql = gSql & " ,operador = '" & gOperador & "', datatual = Cdate('" & Date & "')"
-      gSql = gSql & " WHERE codgrupo = " & Val(Me.Lblcodgrupo.Caption)
+      gSql = "UPDATE tab_grupos SET descricao = '" & Me.TxtDescricao.text & "'"
+      gSql = gSql & " ,operador = '" & gnCodOperador & "', datatual = '" & fuDateSQL() & "'"
+      gSql = gSql & " WHERE idgrupo = " & Val(Me.Lblcodgrupo.Caption)
       ConDb.Execute gSql
     
    End If
@@ -299,12 +299,12 @@ Private Sub Form_Activate()
    If gRs.BOF And gRs.EOF Then
       If MsgBox("Arquivo vazio. Incluir dados agora ?", vbYesNo, "Atenção ") = vbYes Then
          gSql = "INSERT INTO tab_grupos (descricao,operador,datatual) "
-         gSql = gSql & "VALUES ('" & Me.TxtDescricao.Text & "',"
+         gSql = gSql & "VALUES ('" & Me.TxtDescricao.text & "',"
          gSql = gSql & "'" & gOperador & "'," & Date & " ) "
          ConDb.Execute gSql
          gRs.Close
          Abre_Le_rst
-         Me.Lblcodgrupo.Caption = gRs!codgrupo
+         Me.Lblcodgrupo.Caption = gRs!idgrupo
          cmdEditar_Click
          lPrimeiro = True
       Else
@@ -326,7 +326,7 @@ Private Sub Form_Activate()
 End Sub
 
 Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
-  If KeyCode = vbKeyReturn Then SendKeys "{TAB}"
+  If KeyCode = vbKeyReturn Then Sendkeys "{TAB}"
      
 End Sub
 
@@ -364,8 +364,8 @@ Private Sub MSFlexGrid1_Click()
     
     .Row = oldrow
     
-    .Col = 0:   Lblcodgrupo.Caption = .Text: .CellBackColor = vbYellow
-    .Col = 1:   TxtDescricao.Text = .Text: .CellBackColor = vbYellow
+    .Col = 0:   Lblcodgrupo.Caption = .text: .CellBackColor = vbYellow
+    .Col = 1:   TxtDescricao.text = .text: .CellBackColor = vbYellow
     .TopRow = .Row
     
   End With

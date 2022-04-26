@@ -934,7 +934,7 @@ frm.mnutilitarios.Enabled = True
 frm.mnuHelp.Enabled = True
 
 End Sub
-Public Function CalculaCGC(Numero As String) As String
+Public Function CalculaCNPJ(Numero As String) As String
 
 Dim i As Integer
 Dim prod As Integer
@@ -942,7 +942,7 @@ Dim mult As Integer
 Dim digito As Integer
 
 If Not IsNumeric(Numero) Then
-   CalculaCGC = ""
+   CalculaCNPJ = ""
    Exit Function
 End If
 
@@ -955,21 +955,21 @@ Next
 digito = 11 - Int(prod Mod 11)
 digito = IIf(digito = 10 Or digito = 11, 0, digito)
 
-CalculaCGC = Trim(Str(digito))
+CalculaCNPJ = Trim(Str(digito))
 
 End Function
-Public Function ValidaCGC(CGC As String) As Boolean
-If CalculaCGC(Left(CGC, 12)) <> Mid(CGC, 13, 1) Then
-   ValidaCGC = False
+Public Function ValidaCNPJ(CNPJ As String) As Boolean
+If CalculaCNPJ(Left(CNPJ, 12)) <> Mid(CNPJ, 13, 1) Then
+   ValidaCNPJ = False
    Exit Function
 End If
 
-If CalculaCGC(Left(CGC, 13)) <> Mid(CGC, 14, 1) Then
-   ValidaCGC = False
+If CalculaCNPJ(Left(CNPJ, 13)) <> Mid(CNPJ, 14, 1) Then
+   ValidaCNPJ = False
    Exit Function
 End If
 
-ValidaCGC = True
+ValidaCNPJ = True
 
 End Function
 
@@ -1186,7 +1186,7 @@ Private Sub suImprimeCabeCupom()
 '   Print #1, "Controle Interno"
 '   Print #1, Replicate("-", 40)
 '   If gnAPrazo Then
-'      gSql = "select nome,endereco,bairro,cidade,estado,telefone,cgccpf,insc_est,contato "
+'      gSql = "select nome,endereco,bairro,cidade,estado,telefone,CNPJcpf,insc_est,contato "
 '      gSql = gSql & "FROM tab_clientes WHERE codcli = " & pnCodcli
 '      prsCliente.Open gSql, ConDb, adOpenKeyset
 '      Print #1, Trim(gPalavra) + " A PRAZO"
@@ -1232,7 +1232,7 @@ Dim prsLoja As New ADODB.Recordset
 '
 'Avanço de linha e retorno de carro => chr(10) & chr(13)
    
-   gSql = "select nome, endereco,bairro,cidade,estado,cgc,telefone "
+   gSql = "select nome, endereco,bairro,cidade,estado,CNPJ,telefone "
    gSql = gSql & "FROM tab_lojas"
    prsLoja.Open gSql, ConDb, adOpenKeyset
    Print #1, Chr(27); Chr(14); Tab(10); Trim(prsLoja!nome)
@@ -1244,12 +1244,12 @@ Dim prsLoja As New ADODB.Recordset
    Print #1, ""
    prsLoja.Close
     
-   'gSql = "select nome,endereco,bairro,cidade,estado,cep,telefone,celular,cgccpf,insc_est,contato "
+   'gSql = "select nome,endereco,bairro,cidade,estado,cep,telefone,celular,CNPJcpf,insc_est,contato "
    'gSql = gSql & "FROM tab_clientes WHERE codcli = " & pnCodcli
    'prsLoja.Open gSql, ConDb, adOpenKeyset
    Print #1, "Cliente: ", prsVendas!nome
    Print #1, "Endereço:", f_nulo(prsVendas!endereco, " ")
-   Print #1, "CGC/CPF: " & f_nulo(Format(prsVendas!cgccpf, "##.###.###/####-##"), " "); Tab(50); "Insc. Est.: " & f_nulo(prsVendas!insc_est, " ")
+   Print #1, "CNPJ/CPF: " & f_nulo(Format(prsVendas!CNPJcpf, "##.###.###/####-##"), " "); Tab(50); "Insc. Est.: " & f_nulo(prsVendas!insc_est, " ")
    Print #1, "Bairro: " & f_nulo(prsVendas!bairro, " "); Tab(50); "CEP: " & f_nulo(prsVendas!cep, " ")
    Print #1, "Cidade: " & f_nulo(prsVendas!Cidade, " "); Tab(50); "Estado: " & f_nulo(prsVendas!estado, " ")
    Print #1, "Contato: " & f_nulo(prsVendas!contato, " ")
@@ -1272,7 +1272,7 @@ Dim pnLinhas, pnTotped
   End If
   gSql = "select tAB_clientes.nome,tAB_clientes.endereco,tAB_clientes.bairro, "
   gSql = gSql & " tAB_clientes.cidade,tAB_clientes.estado,tAB_clientes.cep,tAB_clientes.telefone, "
-  gSql = gSql & " tAB_clientes.celular,tAB_clientes.cgccpf,tAB_clientes.insc_est,tAB_clientes.contato, "
+  gSql = gSql & " tAB_clientes.celular,tAB_clientes.CNPJcpf,tAB_clientes.insc_est,tAB_clientes.contato, "
   gSql = gSql & " tab_vendas.tipovenda,tAB_vendas.codvend,tAB_clientes.codcli FROM tab_vendas,tab_clientes"
   gSql = gSql & " WHERE NSU = '" & Format(gnSequencia, "000000000") & "'"
   gSql = gSql & " AND tab_vendas.codcli = tab_clientes.codcli "
@@ -1520,4 +1520,48 @@ Public Sub Sendkeys(text As Variant, Optional wait As Boolean = False)
    WshShell.Sendkeys CStr(text), wait
    Set WshShell = Nothing
 End Sub
+
+Public Function SemFormatoCPF_CNPJ(CPF_CNPJ As String)
+Dim cont        As Integer
+
+cont = 1
+
+For cont = 1 To Len(CPF_CNPJ)
+    If InStr("0123456789", Mid(CPF_CNPJ, cont, 1)) > 0 Then
+        SemFormatoCPF_CNPJ = SemFormatoCPF_CNPJ & Mid(CPF_CNPJ, cont, 1)
+    End If
+Next
+
+End Function
+
+Public Function FormatCPF_CNPJ(CPF_CNPJ As String)
+Dim cont        As Integer
+
+If Len(CPF_CNPJ) = 11 Then
+    For cont = 0 To Len(CPF_CNPJ)
+        If cont = 3 Or cont = 6 Then
+            FormatCPF_CNPJ = FormatCPF_CNPJ & Mid(CPF_CNPJ, cont, 1) & "."
+        ElseIf cont = 9 Then
+            FormatCPF_CNPJ = FormatCPF_CNPJ & Mid(CPF_CNPJ, cont, 1) & "-"
+        ElseIf cont <> 0 Then
+            FormatCPF_CNPJ = FormatCPF_CNPJ & Mid(CPF_CNPJ, cont, 1)
+        End If
+    Next
+ElseIf Len(CPF_CNPJ) = 14 Then
+    For cont = 0 To Len(CPF_CNPJ)
+        If cont = 2 Or cont = 5 Then
+            FormatCPF_CNPJ = FormatCPF_CNPJ & Mid(CPF_CNPJ, cont, 1) & "."
+        ElseIf cont = 8 Then
+            FormatCPF_CNPJ = FormatCPF_CNPJ & Mid(CPF_CNPJ, cont, 1) & "/"
+        ElseIf cont = 12 Then
+            FormatCPF_CNPJ = FormatCPF_CNPJ & Mid(CPF_CNPJ, cont, 1) & "-"
+        ElseIf cont <> 0 Then
+            FormatCPF_CNPJ = FormatCPF_CNPJ & Mid(CPF_CNPJ, cont, 1)
+        End If
+    Next
+End If
+
+End Function
+
+
 
